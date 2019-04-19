@@ -20,7 +20,7 @@ setup(
     license="MIT",
     author="Sasha Illarionov",
     author_email="sasha@sdll.space",
-    description="ETL Utilities",
+    description="Python ETL Utilities",
     long_description=read("README.rst"),
     packages=find_packages(exclude=("tests",)),
     install_requires=["pandas"],
