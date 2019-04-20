@@ -4,10 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-flit = "*"
+autopep8 = "*"
 
 [packages]
 pandas = "*"
+sphinx = "*"
 
 [requires]
 python_version = "3.7"

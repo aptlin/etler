@@ -1,9 +1,9 @@
 import io
+import json
 import os
 import re
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 def read(filename):
@@ -13,9 +13,23 @@ def read(filename):
         return re.sub(text_type(r":[a-z]+:`~?(.*?)`"), text_type(r"``\1``"), fd.read())
 
 
+install_requires = []
+tests_require = []
+
+with open("Pipfile.lock") as fd:
+    lock_data = json.load(fd)
+    install_requires = [
+        package_name + package_data["version"]
+        for package_name, package_data in lock_data["default"].items()
+    ]
+    tests_require = [
+        package_name + package_data["version"]
+        for package_name, package_data in lock_data["develop"].items()
+    ]
+
 setup(
     name="etler",
-    version="0.1.0",
+    version="0.1.1",
     url="https://github.com/sdll/etler",
     license="MIT",
     author="Sasha Illarionov",
@@ -23,7 +37,8 @@ setup(
     description="Python ETL Utilities",
     long_description=read("README.rst"),
     packages=find_packages(exclude=("tests",)),
-    install_requires=["pandas"],
+    install_requires=install_requires,
+    tests_require=tests_require,
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: MIT License",
