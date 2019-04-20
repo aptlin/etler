@@ -1,6 +1,7 @@
-from etler.load.logger import LoggingStream
-import pandas as pd
+import contextlib
+import sys
 
+import pandas as pd
 
 def chunk(
     filename: str,
@@ -30,8 +31,8 @@ def chunk(
             None or "" if logging is disabled. (default: {"bad_lines.log"})
     """
     chunkdir.mkdir(parents=True, exist_ok=True)
-    log = open(logname, "w") if logname else None
-    with LoggingStream(log, log):
+    log = open(logname, "w") if logname else sys.stderr
+    with contextlib.redirect_stdout(log):
         for idx, chunk in enumerate(
             pd.read_csv(
                 filename,
@@ -42,3 +43,4 @@ def chunk(
             )
         ):
             chunk.to_csv(chunkdir / f"{chunk_prefix}_{idx}.csv", index=index)
+    log.close()
