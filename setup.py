@@ -2,8 +2,11 @@ import io
 import json
 import os
 import re
+import importlib
 
 from setuptools import find_packages, setup
+
+CONFIG_FILE = "etler/config.py"
 
 
 def read(filename):
@@ -12,6 +15,8 @@ def read(filename):
     with io.open(filename, mode="r", encoding="utf-8") as fd:
         return re.sub(text_type(r":[a-z]+:`~?(.*?)`"), text_type(r"``\1``"), fd.read())
 
+
+version = importlib.import_module(CONFIG_FILE).fetch("version")
 
 install_requires = []
 tests_require = []
@@ -27,9 +32,10 @@ with open("Pipfile.lock") as fd:
         for package_name, package_data in lock_data["develop"].items()
     ]
 
+
 setup(
     name="etler",
-    version="0.1.1",
+    version=version,
     url="https://github.com/sdll/etler",
     license="MIT",
     author="Sasha Illarionov",

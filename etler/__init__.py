@@ -1,5 +1,6 @@
 """etler - ETL Utilities"""
+from etler.config import fetch
 
-__version__ = '0.1.0'
+__version__ = fetch('version')
 __author__ = 'Sasha Illarionov <sasha@sdll.space>'
 __all__ = []
