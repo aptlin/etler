@@ -6,6 +6,8 @@
 # Packages
 *.egg
 *.egg-info
+pip-wheel-metadata
+Pipfile.lock
 dist
 build
 eggs

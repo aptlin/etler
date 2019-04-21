@@ -1,7 +1,9 @@
-import contextlib
+from pathlib import Path
+from contextlib import redirect_stderr
 import sys
 
 import pandas as pd
+
 
 def chunk(
     filename: str,
@@ -11,7 +13,7 @@ def chunk(
     chunk_prefix="chunk",
     index=False,
     should_log=True,
-    logname="bad_lines.log",
+    logname="chunking_errors.log",
 ):
     """Slices the dataset into chunks.
 
@@ -30,9 +32,10 @@ def chunk(
             The name of the log with problematic lines.
             None or "" if logging is disabled. (default: {"bad_lines.log"})
     """
-    chunkdir.mkdir(parents=True, exist_ok=True)
+    datadir = Path(chunkdir)
+    datadir.mkdir(parents=True, exist_ok=True)
     log = open(logname, "w") if logname else sys.stderr
-    with contextlib.redirect_stdout(log):
+    with redirect_stderr(log):
         for idx, chunk in enumerate(
             pd.read_csv(
                 filename,
@@ -42,5 +45,5 @@ def chunk(
                 warn_bad_lines=True,
             )
         ):
-            chunk.to_csv(chunkdir / f"{chunk_prefix}_{idx}.csv", index=index)
+                chunk.to_csv(datadir / f"{chunk_prefix}_{idx}.csv", index=index)
     log.close()

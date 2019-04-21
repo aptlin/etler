@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/sdll/.local/share/virtualenvs/etler-_-PR67QX/bin/python"
+    "python.pythonPath": "/Users/sdll/Library/Caches/pypoetry/virtualenvs/etler-py3.7/bin/python",
+    "python.formatting.provider": "black"
 }
